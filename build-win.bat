@@ -5,14 +5,14 @@ if NOT "%1" == "x64" if NOT "%1" == "x86" (
     goto :error
 )
 if "%1" == "x64" (
-    set arch=64
-    set cmake_gen="Visual Studio 15 2017 Win64"
+    set arch=x64
+    set cmake_gen="Visual Studio 17 2022"
 )
 if "%1" == "x86" (
-    set arch=32
-    set cmake_gen="Visual Studio 15 2017"
+    set arch=Win32
+    set cmake_gen="Visual Studio 17 2022"
 )
 
-rd /s /q "build_%arch%"
-cmake -H. -Bbuild_%arch% -G %cmake_gen%
-cmake --build ./build_%arch% --target secp256k1 --config Release
+rd /s /q "build"
+cmake -H. -Bbuild -G %cmake_gen% -A %arch%
+cmake --build ./build --target secp256k1 --config Release

@@ -1,0 +1,11 @@
+name: build
+
+on: [push]
+
+jobs:
+  build-windows-x64:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: build-win.bat x64
