@@ -10,3 +10,9 @@ jobs:
       - name: Build
         shell: pwsh
         run: ./build-win.bat x64
+      - name: Upload artifact
+        run: 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-win-x64
+          path: build/Release/secp256k1.dll
