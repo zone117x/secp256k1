@@ -14,6 +14,7 @@ jobs:
         with:
           name: secp256k1-win-x64
           path: build/Release/secp256k1.dll
+          if-no-files-found: error
 
   build-windows-x86:
     runs-on: windows-2022
@@ -26,6 +27,7 @@ jobs:
         with:
           name: secp256k1-win-x86
           path: build/Release/secp256k1.dll
+          if-no-files-found: error
 
   build-windows-arm64:
     runs-on: windows-2022
@@ -38,6 +40,7 @@ jobs:
         with:
           name: secp256k1-win-arm64
           path: build/Release/secp256k1.dll
+          if-no-files-found: error
 
   build-macos-arm64:
     runs-on: macos-latest
@@ -48,9 +51,10 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: secp256k1-macos-arm64
-          path: build/libsecp256k1.so
+          path: build/libsecp256k1.dylib
+          if-no-files-found: error
 
-  build-macos-x86_64:
+  build-macos-x64:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,5 +62,42 @@ jobs:
         run: ./build-macos.sh x86_64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-macos-x86_64
+          name: secp256k1-macos-x64
+          path: build/libsecp256k1.dylib
+          if-no-files-found: error
+
+  build-linux-x64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./build-linux.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-linux-x64
           path: build/libsecp256k1.so
+          if-no-files-found: error
+
+  build-linux-x86:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./build-dockcross.sh linux-x86
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-linux-x86
+          path: build/libsecp256k1.so
+          if-no-files-found: error
+
+  build-linux-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./build-dockcross.sh linux-arm64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-linux-arm64
+          path: build/libsecp256k1.so
+          if-no-files-found: error
