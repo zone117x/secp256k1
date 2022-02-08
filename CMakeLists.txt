@@ -13,6 +13,11 @@ message("CMAKE_GENERATOR: ${CMAKE_GENERATOR}")
 message("CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
 
 if (MSVC)
+	if("${CMAKE_GENERATOR_PLATFORM}" STREQUAL "ARM64")
+		set(PLATFORM_COMPILE_FLAGS, SECP256K1_LITTLE_ENDIAN)
+		message("Windows ARM64 detected, enabling SECP256K1_LITTLE_ENDIAN")
+	endif()
+	
 	set(COMPILE_OPTIONS "")
 	set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 	set(CompilerFlags
@@ -37,7 +42,7 @@ add_library(secp256k1 SHARED src/precomputed_ecmult_gen.c src/precomputed_ecmult
 target_compile_definitions(secp256k1 PRIVATE ECMULT_GEN_PREC_BITS=4)
 target_compile_definitions(secp256k1 PRIVATE ECMULT_WINDOW_SIZE=15)
 
-target_compile_definitions(secp256k1 PRIVATE ${COMMON_COMPILE_FLAGS} ${COMPILE_FLAGS})
+target_compile_definitions(secp256k1 PRIVATE ${COMMON_COMPILE_FLAGS} ${PLATFORM_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
 target_include_directories(secp256k1 PRIVATE ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src)
 target_compile_options(secp256k1 PRIVATE ${COMPILE_OPTIONS})
