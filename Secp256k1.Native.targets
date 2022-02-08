@@ -24,6 +24,13 @@
       <Visible>true</Visible>
       <Pack>false</Pack>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-arm64\native\libsecp256k1.so">
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>native\linux-arm64\libsecp256k1.so</Link>
+      <Visible>true</Visible>
+      <Pack>false</Pack>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx-x64\native\libsecp256k1.dylib">
       <PackageCopyToOutput>true</PackageCopyToOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
