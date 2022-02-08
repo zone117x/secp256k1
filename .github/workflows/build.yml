@@ -124,7 +124,7 @@ jobs:
     - name: Nuget pack
       run: nuget pack -Version 0.0.1-alpha
     - uses: actions/upload-artifact@v2
-        with:
-          name: Secp256k1.Native.nupkg
-          path: Secp256k1.Native.0.0.1-alpha.nupkg
-          if-no-files-found: error
+      with:
+        name: Secp256k1.Native.nupkg
+        path: Secp256k1.Native.0.0.1-alpha.nupkg
+        if-no-files-found: error
