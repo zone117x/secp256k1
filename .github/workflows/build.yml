@@ -38,3 +38,25 @@ jobs:
         with:
           name: secp256k1-win-arm64
           path: build/Release/secp256k1.dll
+
+  build-macos-arm64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./build-macos.sh arm64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-macos-arm64
+          path: build/libsecp256k1.so
+
+  build-macos-x86_64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./build-macos.sh x86_64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-macos-x86_64
+          path: build/libsecp256k1.so
