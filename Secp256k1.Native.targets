@@ -17,10 +17,31 @@
       <Visible>true</Visible>
       <Pack>false</Pack>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-arm64\native\secp256k1.dll">
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>native\win-arm64\secp256k1.dll</Link>
+      <Visible>true</Visible>
+      <Pack>false</Pack>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libsecp256k1.so">
       <PackageCopyToOutput>true</PackageCopyToOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>native\linux-x64\libsecp256k1.so</Link>
+      <Visible>true</Visible>
+      <Pack>false</Pack>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x86\native\libsecp256k1.so">
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>native\linux-x86\libsecp256k1.so</Link>
+      <Visible>true</Visible>
+      <Pack>false</Pack>
+    </Content>
+      <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-arm64\native\libsecp256k1.so">
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>native\linux-arm64\libsecp256k1.so</Link>
       <Visible>true</Visible>
       <Pack>false</Pack>
     </Content>

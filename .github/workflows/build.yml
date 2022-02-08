@@ -3,7 +3,7 @@ name: build
 on: [push]
 
 jobs:
-  build-windows-x64:
+  build-win-x64:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
@@ -12,11 +12,11 @@ jobs:
         run: ./build-win.bat x64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-win-x64
+          name: win-x64
           path: build/Release/secp256k1.dll
           if-no-files-found: error
 
-  build-windows-x86:
+  build-win-x86:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
@@ -25,11 +25,11 @@ jobs:
         run: ./build-win.bat x86
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-win-x86
+          name: win-x86
           path: build/Release/secp256k1.dll
           if-no-files-found: error
 
-  build-windows-arm64:
+  build-win-arm64:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
@@ -38,11 +38,11 @@ jobs:
         run: ./build-win.bat arm64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-win-arm64
+          name: win-arm64
           path: build/Release/secp256k1.dll
           if-no-files-found: error
 
-  build-macos-arm64:
+  build-osx-arm64:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -50,11 +50,11 @@ jobs:
         run: ./build-macos.sh arm64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-macos-arm64
+          name: osx-arm64
           path: build/libsecp256k1.dylib
           if-no-files-found: error
 
-  build-macos-x64:
+  build-osx-x64:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -62,7 +62,7 @@ jobs:
         run: ./build-macos.sh x86_64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-macos-x64
+          name: osx-x64
           path: build/libsecp256k1.dylib
           if-no-files-found: error
 
@@ -74,7 +74,7 @@ jobs:
         run: ./build-linux.sh
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-linux-x64
+          name: linux-x64
           path: build/libsecp256k1.so
           if-no-files-found: error
 
@@ -86,7 +86,7 @@ jobs:
         run: ./build-dockcross.sh linux-x86
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-linux-x86
+          name: linux-x86
           path: build/libsecp256k1.so
           if-no-files-found: error
 
@@ -98,6 +98,33 @@ jobs:
         run: ./build-dockcross.sh linux-arm64
       - uses: actions/upload-artifact@v2
         with:
-          name: secp256k1-linux-arm64
+          name: linux-arm64
           path: build/libsecp256k1.so
+          if-no-files-found: error
+
+  pack-nuget:
+    runs-on: ubuntu-latest
+    needs:
+      - build-win-x64
+      - build-win-x86
+      - build-win-arm64
+      - build-osx-arm64
+      - build-osx-x64
+      - build-linux-x64
+      - build-linux-x86
+      - build-linux-arm64
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        path: lib
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: lib
+    - name: Nuget pack
+      run: nuget pack -Version 0.0.1-alpha
+    - uses: actions/upload-artifact@v2
+        with:
+          name: Secp256k1.Native.nupkg
+          path: Secp256k1.Native.0.0.1-alpha.nupkg
           if-no-files-found: error
