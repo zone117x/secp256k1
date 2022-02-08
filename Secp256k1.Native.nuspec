@@ -12,7 +12,9 @@
   </metadata>
   <files>
     <file src="lib/linux-x64/libsecp256k1.so" target="runtimes/linux-x64/native/libsecp256k1.so" />
+    <file src="lib/linux-arm64/libsecp256k1.so" target="runtimes/linux-arm64/native/libsecp256k1.so" />
     <file src="lib/osx-x64/libsecp256k1.dylib" target="runtimes/osx-x64/native/libsecp256k1.dylib" />
+    <file src="lib/osx-arm64/libsecp256k1.dylib" target="runtimes/osx-arm64/native/libsecp256k1.dylib" />
     <file src="lib/win-x64/secp256k1.dll" target="runtimes/win-x64/native/secp256k1.dll" />
     <file src="lib/win-x86/secp256k1.dll" target="runtimes/win-x86/native/secp256k1.dll" />
     <file src="Secp256k1.Native.targets" target="build/netstandard1.0"/>
