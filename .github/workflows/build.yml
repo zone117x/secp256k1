@@ -14,3 +14,27 @@ jobs:
         with:
           name: secp256k1-win-x64
           path: build/Release/secp256k1.dll
+
+  build-windows-x86:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        shell: pwsh
+        run: ./build-win.bat x86
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-win-x86
+          path: build/Release/secp256k1.dll
+
+  build-windows-arm64:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        shell: pwsh
+        run: ./build-win.bat arm64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: secp256k1-win-arm64
+          path: build/Release/secp256k1.dll
