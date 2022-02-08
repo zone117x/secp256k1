@@ -29,6 +29,8 @@ jobs:
 
   build-windows-arm64:
     runs-on: windows-2022
+    env:
+      CFLAGS: -D_SECP256K1_LITTLE_ENDIAN=1
     steps:
       - uses: actions/checkout@v2
       - name: Build
