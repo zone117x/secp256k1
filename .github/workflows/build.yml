@@ -1,6 +1,11 @@
 name: build
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      nuget-package-version:
+        required: true
 
 jobs:
   build-win-x64:
@@ -122,9 +127,16 @@ jobs:
       run: ls -R
       working-directory: lib
     - name: Nuget pack
-      run: nuget pack -Version 0.0.1-alpha
+      env:
+        NUGET_PACKAGE_VERSION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.nuget-package-version || '0.0.1-alpha' }}
+      run: nuget pack -OutputFileNamesWithoutVersion -Version $NUGET_API_KEY
     - uses: actions/upload-artifact@v2
       with:
         name: Secp256k1.Native.nupkg
-        path: Secp256k1.Native.0.0.1-alpha.nupkg
+        path: Secp256k1.Native.nupkg
         if-no-files-found: error
+    - name: Publish nuget package
+      if: github.event_name == 'workflow_dispatch'
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: nuget push Secp256k1.Native.nupkg -ApiKey "$NUGET_API_KEY" -Source https://api.nuget.org/v3/index.json
