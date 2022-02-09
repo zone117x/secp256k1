@@ -129,7 +129,7 @@ jobs:
     - name: Nuget pack
       env:
         NUGET_PACKAGE_VERSION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.nuget-package-version || '0.0.1-alpha' }}
-      run: nuget pack -OutputFileNamesWithoutVersion -Version $NUGET_API_KEY
+      run: nuget pack -OutputFileNamesWithoutVersion -Version $NUGET_PACKAGE_VERSION
     - uses: actions/upload-artifact@v2
       with:
         name: Secp256k1.Native.nupkg
