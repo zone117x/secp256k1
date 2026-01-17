@@ -1,0 +1,93 @@
+name: build
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      nuget-package-version:
+        required: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - rid: win-x64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh windows-shared-x64
+          - rid: win-x86
+            runner: ubuntu-latest
+            script: ./nuget/build.sh windows-shared-x86
+          - rid: win-arm64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh windows-arm64
+          - rid: osx-arm64
+            runner: macos-latest
+            script: ./nuget/build-macos.sh arm64
+          - rid: osx-x64
+            runner: macos-latest
+            script: ./nuget/build-macos.sh x86_64
+          - rid: linux-x64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh linux-x64
+          - rid: linux-x86
+            runner: ubuntu-latest
+            script: ./nuget/build.sh linux-x86
+          - rid: linux-arm64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh linux-arm64
+          - rid: linux-musl-x64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh linux-musl-x64
+          - rid: linux-musl-arm64
+            runner: ubuntu-latest
+            script: ./nuget/build.sh linux-musl-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache native library
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: lib/${{ matrix.rid }}/
+          key: ${{ matrix.rid }}-${{ hashFiles('src/**', 'include/**', 'CMakeLists.txt', 'nuget/build.sh', 'nuget/build-macos.sh') }}
+      - name: Build
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: ${{ matrix.script }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.rid }}
+          path: lib/${{ matrix.rid }}/
+          if-no-files-found: error
+
+  pack-nuget:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write  # Required for NuGet Trusted Publishing OIDC
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        path: lib
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: lib
+    - name: Nuget pack
+      env:
+        NUGET_PACKAGE_VERSION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.nuget-package-version || '0.0.1-alpha' }}
+      run: dotnet pack nuget/Secp256k1.Native.csproj -o . -p:NuspecProperties="version=$NUGET_PACKAGE_VERSION"
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Secp256k1.Native.nupkg
+        path: Secp256k1.Native.*.nupkg
+        if-no-files-found: error
+    - name: NuGet login (OIDC)
+      if: github.event_name == 'workflow_dispatch'
+      uses: nuget/login@v1
+      id: nuget-login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+    - name: Publish nuget package
+      if: github.event_name == 'workflow_dispatch'
+      run: dotnet nuget push Secp256k1.Native.*.nupkg --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json

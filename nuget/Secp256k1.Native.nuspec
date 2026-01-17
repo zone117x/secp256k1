@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Secp256k1.Native</id>
+    <version>$version$</version>
+    <authors>Matthew Little</authors>
+    <owners>Matthew Little</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/zone117x/secp256k1</projectUrl>
+    <description>This package contains platform-specific native code builds of secp256k1. Included: osx-x64/libsecp256k1.dylib, osx-arm64/libsecp256k1.dylib (Apple Silicon), linux-x64/libsecp256k1.so, linux-x86/libsecp256k1.so, linux-arm64/libsecp256k1.so, linux-musl-x64/libsecp256k1.so (Alpine), linux-musl-arm64/libsecp256k1.so (Alpine), win-x64/secp256k1.dll, win-x86/secp256k1.dll, win-arm64/secp256k1.dll</description>
+    <tags>Secp256k1 libsecp256k1 ECDSA ethereum bitcoin</tags>
+  </metadata>
+  <files>
+    <file src="../lib/linux-x64/libsecp256k1.so" target="runtimes/linux-x64/native/libsecp256k1.so" />
+    <file src="../lib/linux-x86/libsecp256k1.so" target="runtimes/linux-x86/native/libsecp256k1.so" />
+    <file src="../lib/linux-arm64/libsecp256k1.so" target="runtimes/linux-arm64/native/libsecp256k1.so" />
+    <file src="../lib/linux-musl-x64/libsecp256k1.so" target="runtimes/linux-musl-x64/native/libsecp256k1.so" />
+    <file src="../lib/linux-musl-arm64/libsecp256k1.so" target="runtimes/linux-musl-arm64/native/libsecp256k1.so" />
+    <file src="../lib/osx-x64/libsecp256k1.dylib" target="runtimes/osx-x64/native/libsecp256k1.dylib" />
+    <file src="../lib/osx-arm64/libsecp256k1.dylib" target="runtimes/osx-arm64/native/libsecp256k1.dylib" />
+    <file src="../lib/win-x64/secp256k1.dll" target="runtimes/win-x64/native/secp256k1.dll" />
+    <file src="../lib/win-x86/secp256k1.dll" target="runtimes/win-x86/native/secp256k1.dll" />
+    <file src="../lib/win-arm64/secp256k1.dll" target="runtimes/win-arm64/native/secp256k1.dll" />
+    <file src="Secp256k1.Native.targets" target="buildTransitive/netstandard2.0/Secp256k1.Native.targets" />
+    <file src="Secp256k1.Native.targets" target="build/netstandard2.0/Secp256k1.Native.targets" />
+  </files>
+</package>
