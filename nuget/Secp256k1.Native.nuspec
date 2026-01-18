@@ -21,7 +21,5 @@
     <file src="../lib/win-x64/secp256k1.dll" target="runtimes/win-x64/native/secp256k1.dll" />
     <file src="../lib/win-x86/secp256k1.dll" target="runtimes/win-x86/native/secp256k1.dll" />
     <file src="../lib/win-arm64/secp256k1.dll" target="runtimes/win-arm64/native/secp256k1.dll" />
-    <file src="Secp256k1.Native.targets" target="buildTransitive/netstandard2.0/Secp256k1.Native.targets" />
-    <file src="Secp256k1.Native.targets" target="build/netstandard2.0/Secp256k1.Native.targets" />
   </files>
 </package>
